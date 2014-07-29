@@ -16,7 +16,6 @@ class OrderTest extends PHPUnit_Framework_TestCase
     public function test_create_delete_order()
     {
         $account_client = Gengo_Api::factory('account', $this->key, $this->secret);
-        $account_client->setBaseUrl('http://api.gengo.dev/');
         $account_client->getBalance();
         $body = $account_client->getResponseBody();
         $response = json_decode($body, TRUE);
@@ -49,8 +48,7 @@ class OrderTest extends PHPUnit_Framework_TestCase
 
         // Get an instance of Jobs Client
         $jobs_client = Gengo_Api::factory('jobs', $this->key, $this->secret);
-        $jobs_client->setBaseUrl('http://api.gengo.dev/');
-
+        // post jobs
         $jobs_client->postJobs($jobs);
         // make sure order is processed by the jobs processor
         sleep(10);
@@ -80,7 +78,6 @@ class OrderTest extends PHPUnit_Framework_TestCase
 
         // cancel the order
         $order_client = Gengo_Api::factory('order', $this->key, $this->secret);
-        $order_client->setBaseUrl('http://api.gengo.dev/');
         $order_client->cancel($order_id);
 
         // get the balance again and check that is equal to the start_credits
